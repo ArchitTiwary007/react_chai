@@ -1,5 +1,5 @@
-import { StrictMode } from 'react'
 import React from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 
@@ -25,11 +25,13 @@ const anotherElem = (
   <a href="https://youtube.com" target='_blank'>VISIT YT</a>
 )
 
+const anotherUser="chai aur react"
 
 const reactElement = React.createElement(
   'a',
   { href: 'https://google.com', target: '_blank' },
-  'click me to visit'
+  'click me to visit ',
+  anotherUser
 )
 
 function MyApp() {
@@ -42,7 +44,8 @@ function MyApp() {
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-    // <MyApp />
+  // <MyApp />
+  // <App />
   // </StrictMode>
 
   // <reactElem />
