@@ -1,4 +1,4 @@
-import { useState,useCallback,useEffect } from 'react'
+import { useState,useCallback,useEffect,useRef} from 'react'
 import './App.css'
 function App() {
   const [length, setlength] = useState(8);
@@ -7,6 +7,9 @@ function App() {
   const [charAllow, setCharAllow] = useState(false)
   
   const [Password, setPassword] = useState("")
+
+  //useRef hook (Reference hook => must import it)
+  const passwordRef = useRef(null)
   
   //useCallback=>hook->(function,dependencies in form of an array)
   const passwordGenerator = useCallback(() => {
@@ -25,21 +28,29 @@ function App() {
     
   }, [length,numAllow,charAllow,setPassword])
   
+  const copyPasswordToClipboard = useCallback(() => { 
+    passwordRef.current?.select()
+    passwordRef.current?.setSelectionRange(0,12)
+    window.navigator.clipboard.writeText(Password);
+  }, [Password])
+  
   useEffect(() => {
     passwordGenerator()
   },[length,numAllow,charAllow,passwordGenerator])
   return (
     <>
-      <div className="w-full max-w-md mx-auto shadow-md rounded-lg my-8 text-orange-500 bg-gray-800">
-        <h1 className='text-white text-center my-6'>Password Generator</h1>
-        <div className="flex shadow rounded-xl overflow-hidden mb-4 ">
+      <div className="w-full p-5 max-w-md mx-auto shadow-md rounded-lg my-8 text-orange-500 bg-gray-800">
+        <h1 className='text-white text-4xl text-center font-bold mb-4'>Password Generator</h1>
+        <div className="flex rounded-lg overflow-hidden mb-4 ">
           <input type="text"
             value={Password}
-            className=' outline-none w-full py-1 px-3 bg-white'
-            placeholder='password' readOnly
+            className="outline-none w-full py-3 px-4 bg-white text-black text-lg"
+            placeholder='Password' readOnly
+            ref={passwordRef}
           />
           <button
-          className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0 rounded cursor-pointer'>copy
+            onClick={copyPasswordToClipboard}
+          className='outline-none bg-blue-700 text-white px-5 py-3 hover:bg-blue-800 text-lg font-medium rounded-none cursor-pointer'>copy
           </button>
           
         </div>
