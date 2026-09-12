@@ -1,120 +1,75 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useState,useCallback,useEffect } from 'react'
 import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
+  const [length, setlength] = useState(8);
+  const [numAllow, setNumAllow] = useState(false);
 
+  const [charAllow, setCharAllow] = useState(false)
+  
+  const [Password, setPassword] = useState("")
+  
+  //useCallback=>hook->(function,dependencies in form of an array)
+  const passwordGenerator = useCallback(() => {
+    let pass = ""
+    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    if (numAllow) str += "0123456789"
+    if (charAllow) str += "!@#$%^&*()_+~`"
+    
+    for (let i = 1; i <= length; i++) {
+      //generating the random numbers
+      let char = Math.floor(Math.random() * str.length + 1);
+      pass+=str.charAt(char)
+      
+    }
+    setPassword(pass)
+    
+  }, [length,numAllow,charAllow,setPassword])
+  
+  useEffect(() => {
+    passwordGenerator()
+  },[length,numAllow,charAllow,passwordGenerator])
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <div className="w-full max-w-md mx-auto shadow-md rounded-lg my-8 text-orange-500 bg-gray-800">
+        <h1 className='text-white text-center my-6'>Password Generator</h1>
+        <div className="flex shadow rounded-xl overflow-hidden mb-4 ">
+          <input type="text"
+            value={Password}
+            className=' outline-none w-full py-1 px-3 bg-white'
+            placeholder='password' readOnly
+          />
+          <button
+          className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0 rounded cursor-pointer'>copy
+          </button>
+          
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <div className='flex text-sm gap-x-2'>
+            <div className='flex items-center gap-x-1'>
+              <input type="range"
+                min={6}
+                max={100}
+                value={length}
+                className='cursor-pointer'onChange={(e)=>{setlength(e.target.value)}}
+              /><label >Length:{length}</label>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <input
+              type="checkbox"
+              defaultChecked={numAllow}
+              id="numberInput"
+              onChange={(e) => { setNumAllow((prev) => !prev) }} />
+            <label htmlFor="numberInput">Numbers</label>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <input
+              type="checkbox"
+              defaultChecked={charAllow}
+              id="charInput"
+              onChange={(e) => { setNumAllow((prev) => !prev) }} />
+            <label htmlFor="charInput">Characters</label>
+          </div>
+          </div>
+      </div>
     </>
   )
 }
