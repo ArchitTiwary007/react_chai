@@ -2,9 +2,17 @@ import React from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import {Controller} from 'react-hook-form'
 
-function RTE() {
+export default function RTE({name,control,label,defaultValue=""}) {
     return (
-        <Editor
+        <div className='w-full'>
+            {label && <label className='inline-block mb-1 p1-1'>{label}</label>}
+
+            <Controller
+                name={name || "content"}
+                control={control}
+                //to be rendered!!
+                render={({ field: { onChange } }) => (
+                    <Editor
             initialValue='default value'
             init={
                 {
@@ -37,9 +45,12 @@ function RTE() {
                     "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
                 }
             }
-            onEditorChange={onChange}
+            onEditorChange = {onChange}
         />
+                )}
+            />
+        </div>
+        
     )
 }
 
-export default RTE;
