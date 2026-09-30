@@ -1,5 +1,5 @@
-import config from '../config.js'
-import { Client, ID, TablesDB, Storage } from "appwrite";
+import config from "../config/config.js";
+import { Client, ID, TablesDB, Storage,Query } from "appwrite";
 
 export class Service{
     client = new Client();
