@@ -1,11 +1,18 @@
-import { React,StrictMode } from 'react'
-import { ReactDOM,createRoot } from 'react-dom/client'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { AuthLayout } from './components/index.js'
+import { AuthLayout, Login } from './components/index.js'
+
+import Home from "./pages/Home"
+import Post from "./pages/Post"
+import AddPost from "./pages/AddPost";
+import Signup from './pages/Signup';
+import EditPost from "./pages/EditPost";
+import AllPosts from "./pages/AllPosts";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +20,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        pathy: '/',
+        path: '/',
         element:<Home />,//rendering.....
       },
       {
@@ -22,13 +29,52 @@ const router = createBrowserRouter([
           <AuthLayout authentication={false}>
             <Login />
           </AuthLayout>
-        )
-      }
-    ]
-  }
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <AuthLayout authentication={false} >
+            <Signup />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/add-post",
+        element: (
+          <AuthLayout authentication>
+            {" "}
+            <AddPost />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/all-post",
+        element: (
+          <AuthLayout authentication>
+            {" "}
+            <AllPosts />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/edit-post/:slug",
+        element: (
+          <AuthLayout authentication>
+            {" "}
+            <EditPost />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/post/:slug",
+        element:<Post />
+      },
+    ],
+  },
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />

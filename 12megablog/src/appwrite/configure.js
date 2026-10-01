@@ -31,12 +31,13 @@ export class Service{
             console.log("Appwrite service :: createPost :: error", error);
         }
     }
-    async updatePost(data,{ title, content, featuredImage, status, userId }) {
+    async updatePost(rowId,{ title, content, featuredImage, status, userId }) {
         try {
             return await this.tablesDB.updateRow(
                 {
                     databaseId:config.appwriteDatabaseId,
                     tableId: config.appwriteTableId,
+                    rowId,
                     data: {
                         title,
                         content,
@@ -50,13 +51,13 @@ export class Service{
         }
         
     }
-    async deletePost(data) {
+    async deletePost(rowId) {
         try {
             await this.tablesDB.deleteRow(
                 {
                     databaseId: config.appwriteDatabaseId,
                     tableId: config.appwriteTableId,
-                    data
+                    rowId,
                 }
             )
             return true;
@@ -72,7 +73,7 @@ export class Service{
                 {
                     databaseId: config.appwriteDatabaseId,
                     tableId: config.appwriteTableId,
-                    data
+                    rowId,
                 }
             )
             
@@ -84,7 +85,7 @@ export class Service{
 
     async getPosts(queries = [Query.equal("status", "active")]) {
         try {
-            return await this.tablesDB.listDocuments(
+            return await this.tablesDB.listRows(
                 {
                     databaseId: config.appwriteDatabaseId,
                     tableId: config.appwriteTableId,
