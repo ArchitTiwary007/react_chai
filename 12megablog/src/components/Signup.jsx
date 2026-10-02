@@ -18,7 +18,7 @@ function Signup() {
             const userData = await authService.createAccount(data)
             if (userData) {
                 const userData = await authService.getCurrentUser()
-                if (userData) dispatch(login(userData));
+                if (userData) dispatch(login({userData}));
                 navigate("/")
             }
         } catch (error) {
@@ -59,9 +59,7 @@ function Signup() {
                             type="email"
                             {...register("email", {
                                 required: true,
-                                validate: {
-                                    matchPattern:(value) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(value) || "Email address must be valid address",
-                                }
+                                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
                             })}
                         />
                         <Input
@@ -69,7 +67,11 @@ function Signup() {
                             type="password"
                             placeholder="Enter password"
                             {...register("password", {
-                                required: true,
+                                required: "Requires Password",
+                                minLength: {
+                                    value: 8,
+                                    message:"Password must be at least 8 characters"
+                                }
                                 
                             })}
                         />
