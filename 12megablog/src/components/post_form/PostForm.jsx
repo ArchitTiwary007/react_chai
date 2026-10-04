@@ -8,10 +8,10 @@ import { useSelector } from 'react-redux'
 export default function PostForm({post}) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
-            title: post?.title || '',
-            slug: post?.slug || '',
-            content: post?.content || '',
-            status:post?.status || 'active'
+            title: post?.title || "",
+            slug: post?.slug || "",
+            content: post?.content || "",
+            status:post?.status || "active",
         }
     })
 
