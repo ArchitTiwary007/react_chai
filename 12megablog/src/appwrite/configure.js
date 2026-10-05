@@ -103,9 +103,9 @@ export class Service{
     async uploadFile(file) {
         try {
             return await this.bucket.createFile({
-                databaseId: config.appwriteDatabaseId,
-                tableId: config.appwriteTableId,
-                rowId: ID.unique(),
+                bucketId: config.appwriteBucketId,
+                fileId: ID.unique(),
+                file,
             })
         }
         catch (error) {
