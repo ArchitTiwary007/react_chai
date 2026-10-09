@@ -67,7 +67,7 @@ export class Service{
         }
     }
 
-    async getPost(data) {
+    async getPost(rowId) {
         try {
             return await this.tablesDB.getRow(
                 {
