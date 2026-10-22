@@ -15,6 +15,15 @@ export class Service{
 
     async createPost({title,content,featuredImage,status,userId}) {
         try {
+
+            console.log("Post data:", {
+            title,
+            content,
+            featuredImage,
+            imageRequired: featuredImage,
+            status,
+            userid:userId
+        });
             return await this.tablesDB.createRow({
                 databaseId: config.appwriteDatabaseId,
                 tableId: config.appwriteTableId,
@@ -22,9 +31,10 @@ export class Service{
                 data: {
                     title,
                     content,
-                    featuredImage,
+                    // featuredImage,
+                    imageRequired:featuredImage,
                     status,
-                    userId,
+                    userid:userId,
                 },
             })
         } catch (error) {
@@ -41,8 +51,10 @@ export class Service{
                     data: {
                         title,
                         content,
-                        featuredImage,
+                        // featuredImage,
+                        imageRequired:featuredImage,
                         status,
+                        userid:userId,
                     }
                 }
             );
