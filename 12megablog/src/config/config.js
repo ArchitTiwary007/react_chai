@@ -5,8 +5,6 @@ const config = {
     appwriteTableId: String(import.meta.env.VITE_APPWRITE_TABLE_ID),
     appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
 };
-
-
 console.log("APPWRITE CONFIG:", config);
 
 export default config;
